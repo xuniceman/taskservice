@@ -47,43 +47,7 @@
 			value="classpath:quartz.properties"></property>
 	</bean>
 
-	<!-- JMS -->
-	<bean id="connectionFactory"
-		class="org.apache.activemq.spring.ActiveMQConnectionFactory">
-		<property name="brokerURL" value="tcp://127.0.0.1:61616"></property>
-		
-	</bean>
 	
-	<bean id="topicDestination"  class="org.apache.activemq.command.ActiveMQTopic">
-        <constructor-arg value="testSpringTopic"/>
-    </bean>
-    
-	<bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">	
-		<property name="connectionFactory" ref="connectionFactory"/>
-		<property name="pubSubDomain" value="true" />
-		<property name="defaultDestination" ref="topicDestination"/>
-		<property name="receiveTimeout" value="10000" />
-		<property name="explicitQosEnabled" value="true"/>
-		<property name="deliveryMode" value="1"/>
-	</bean>
-	
-	<bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-		<property name="connectionFactory" ref="connectionFactory"/>
-		<property name="destination" ref="topicDestination"/>
-		<property name="pubSubDomain" value="true"/>
-		<property name="subscriptionDurable" value="true"/>
-		<property name="messageListener" ref="jmsMessageListener"/>
-		<property name="sessionAcknowledgeMode" value="1"/>
-		<property name="clientId" value="consumerClient1"/>
-	</bean>
-
-
-
-
-
-
-
-
 
 
 

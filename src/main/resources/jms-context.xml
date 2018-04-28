@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- JMS -->
+	<bean id="connectionFactory"
+		class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://127.0.0.1:61616"></property>
+
+	</bean>
+	<bean id="ipTopicDestination"
+		class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="ipTopic" />
+	</bean>
+	<bean id="keyTopicDestination"
+		class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="keyTopic" />
+	</bean>
+	<bean id="ipJmsTopicTemplate"
+		class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="pubSubDomain" value="true" />
+		<property name="defaultDestination" ref="ipTopicDestination" />
+		<!-- 设置接收等待时间，毫秒单位 -->
+		<property name="receiveTimeout" value="10000" />
+		<!-- 如果不打开服务质量的开关，消息的递送模式、优先级和存活时间的设置就没有作用。 -->
+		<property name="explicitQosEnabled" value="true" />
+		<!-- 设置消息的存活时间，毫秒单位 -->
+		<property name="timeToLive" value="10000" />
+		<!-- 设置是否持久化要发送的消息：1-非持久化；2-持久化 -->
+		<property name="deliveryMode" value="1" />
+	</bean>
+
+	<bean id="keyJmsTopicTemplate"
+		class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="pubSubDomain" value="true" />
+		<property name="defaultDestination" ref="keyTopicDestination" />
+		<!-- 设置接收等待时间，毫秒单位 -->
+		<property name="receiveTimeout" value="10000" />
+		<!-- 如果不打开服务质量的开关，消息的递送模式、优先级和存活时间的设置就没有作用。 -->
+		<property name="explicitQosEnabled" value="true" />
+		<!-- 设置消息的存活时间，毫秒单位 -->
+		<property name="timeToLive" value="10000" />
+		<!-- 设置是否持久化要发送的消息：1-非持久化；2-持久化 -->
+		<property name="deliveryMode" value="1" />
+	</bean>
+	
+	<bean id="jsmTool" class="com.gcexe.monitor.taskservice.jms.JMSToolImpl">
+		<property name="ipJmsTopicTemplate" ref="ipJmsTopicTemplate"/>
+		<property name="keyTopicDestination" ref="keyJmsTopicTemplate"/>
+	</bean>
+	
+	
+	<!-- <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer"> 
+		<property name="connectionFactory" ref="connectionFactory"/> <property name="destination" 
+		ref="topicDestination"/> <property name="pubSubDomain" value="true"/> <property 
+		name="concurrency" value="10"/> <property name="subscriptionDurable" value="true"/> 
+		<property name="messageListener" ref="jmsMessageListener"/> <property name="sessionAcknowledgeMode" 
+		value="1"/> <property name="clientId" value="consumerClient1"/> </bean> -->
+
+</beans>

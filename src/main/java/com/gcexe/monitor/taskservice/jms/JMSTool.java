@@ -2,7 +2,7 @@ package com.gcexe.monitor.taskservice.jms;
 
 public interface JMSTool {
 
-	public void sendMessage(String str);
+	public void sendIPMessage(String str);
 
-	public Object receiveMessage();
+	public void sendKeyMessage(String str);
 }
