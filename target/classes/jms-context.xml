@@ -8,19 +8,19 @@
 		<property name="brokerURL" value="tcp://127.0.0.1:61616"></property>
 
 	</bean>
-	<bean id="ipTopicDestination"
-		class="org.apache.activemq.command.ActiveMQTopic">
-		<constructor-arg value="ipTopic" />
+	<bean id="ipQueueDestination"
+		class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="ipQueue" />
 	</bean>
 	<bean id="keyTopicDestination"
 		class="org.apache.activemq.command.ActiveMQTopic">
 		<constructor-arg value="keyTopic" />
 	</bean>
-	<bean id="ipJmsTopicTemplate"
+	<bean id="ipJmsQueueTemplate"
 		class="org.springframework.jms.core.JmsTemplate">
 		<property name="connectionFactory" ref="connectionFactory" />
-		<property name="pubSubDomain" value="true" />
-		<property name="defaultDestination" ref="ipTopicDestination" />
+		<property name="pubSubDomain" value="false" />
+		<property name="defaultDestination" ref="ipQueueDestination" />
 		<!-- 设置接收等待时间，毫秒单位 -->
 		<property name="receiveTimeout" value="10000" />
 		<!-- 如果不打开服务质量的开关，消息的递送模式、优先级和存活时间的设置就没有作用。 -->
@@ -47,7 +47,7 @@
 	</bean>
 	
 	<bean id="jsmTool" class="com.gcexe.monitor.taskservice.jms.JMSToolImpl">
-		<property name="ipJmsTopicTemplate" ref="ipJmsTopicTemplate"/>
+		<property name="ipJmsQueueTemplate" ref="ipJmsQueueTemplate"/>
 		<property name="keyTopicDestination" ref="keyJmsTopicTemplate"/>
 	</bean>
 	

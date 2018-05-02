@@ -2,6 +2,8 @@ package com.gcexe.monitor.taskservice.task;
 
 
 
+import java.util.Date;
+
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -20,7 +22,7 @@ public class TaskIPJob implements Job {
 		jmsTool.sendIPMessage("ip queues.....");
 		
 		
-		System.out.println("添加任务=======ip消息加入队列");
+		System.out.println("添加任务=======ip消息加入队列"+new Date().toLocaleString());
 	}
 	
 }

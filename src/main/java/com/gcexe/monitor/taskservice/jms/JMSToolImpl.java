@@ -9,14 +9,14 @@ import org.springframework.jms.core.MessageCreator;
 public class JMSToolImpl implements JMSTool {
 
 
-	private JmsTemplate ipJmsTopicTemplate;
+	private JmsTemplate ipJmsQueueTemplate;
 	
 	private JmsTemplate keyTopicDestination;
 
 	public void sendIPMessage(String str) {
-		ipJmsTopicTemplate.send(new MessageCreator() {
+		ipJmsQueueTemplate.send(new MessageCreator() {
 			public Message createMessage(Session session) throws JMSException {
-				return session.createObjectMessage(str);
+				return session.createTextMessage(str);
 			}
 		});
 	}
@@ -29,12 +29,13 @@ public class JMSToolImpl implements JMSTool {
 		});
 	}
 
-	public JmsTemplate getIpJmsTopicTemplate() {
-		return ipJmsTopicTemplate;
+	
+	public JmsTemplate getIpJmsQueueTemplate() {
+		return ipJmsQueueTemplate;
 	}
 
-	public void setIpJmsTopicTemplate(JmsTemplate ipJmsTopicTemplate) {
-		this.ipJmsTopicTemplate = ipJmsTopicTemplate;
+	public void setIpJmsQueueTemplate(JmsTemplate ipJmsQueueTemplate) {
+		this.ipJmsQueueTemplate = ipJmsQueueTemplate;
 	}
 
 	public JmsTemplate getKeyTopicDestination() {
